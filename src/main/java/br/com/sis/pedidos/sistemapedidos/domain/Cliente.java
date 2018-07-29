@@ -38,6 +38,10 @@ public class Cliente implements Serializable {
     @ElementCollection
     @CollectionTable(name = "tabela_telefone")
     private Set<String> telefones = new HashSet<>();
+    @Getter
+    @Setter
+    @OneToMany(mappedBy = "cliente")
+    private List<Pedido> pedidos = new ArrayList<>();
 
     public Cliente() {
         super();
