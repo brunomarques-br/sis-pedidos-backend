@@ -1,6 +1,5 @@
 package br.com.sis.pedidos.sistemapedidos.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,7 +26,7 @@ public class Produto implements Serializable {
     private Double preco;
     @Getter
     @Setter
-    @JsonBackReference
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name = "PRODUTO_CATEGORIA",

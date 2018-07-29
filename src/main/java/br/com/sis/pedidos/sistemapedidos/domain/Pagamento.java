@@ -1,12 +1,11 @@
 package br.com.sis.pedidos.sistemapedidos.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -23,7 +22,7 @@ public abstract class Pagamento implements Serializable {
     private Integer estadoPagamento;
     @Getter
     @Setter
-    @JsonBackReference
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "pedido_id")
     @MapsId

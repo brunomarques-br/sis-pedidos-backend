@@ -1,6 +1,5 @@
 package br.com.sis.pedidos.sistemapedidos.domain;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,7 +22,6 @@ public class Cidade implements Serializable {
     private String nome;
     @Getter
     @Setter
-    @JsonManagedReference
     @ManyToOne
     @JoinColumn(name = "estado_id")
     private Estado estado;

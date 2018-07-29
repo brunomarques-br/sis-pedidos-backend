@@ -1,6 +1,6 @@
 package br.com.sis.pedidos.sistemapedidos.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -35,7 +35,7 @@ public class Endereco implements Serializable {
     private String cep;
     @Getter
     @Setter
-    @JsonBackReference
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;

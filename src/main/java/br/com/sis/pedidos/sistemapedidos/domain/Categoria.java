@@ -27,11 +27,11 @@ public class Categoria implements Serializable {
 
     @Getter
     @Setter
-    @JsonManagedReference
     @ManyToMany(mappedBy = "categorias")
     private List<Produto> produtos = new ArrayList<>();
 
     public Categoria() {
+        super();
     }
 
     public Categoria(Integer id, String nome) {
