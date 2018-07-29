@@ -1,6 +1,6 @@
 package br.com.sis.pedidos.sistemapedidos.domain;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Categoria implements Serializable {
+public class Produto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -20,32 +20,38 @@ public class Categoria implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
     @Getter
     @Setter
     private String nome;
-
     @Getter
     @Setter
-    @JsonManagedReference
-    @ManyToMany(mappedBy = "categorias")
-    private List<Produto> produtos = new ArrayList<>();
+    private Double preco;
+    @Getter
+    @Setter
+    @JsonBackReference
+    @ManyToMany
+    @JoinTable(
+            name = "PRODUTO_CATEGORIA",
+            joinColumns = @JoinColumn(name = "produto_id"),
+            inverseJoinColumns = @JoinColumn(name = "categoria_id")
+    )
+    private List<Categoria> categorias = new ArrayList<>();
 
-    public Categoria() {
+    public Produto() {
     }
 
-    public Categoria(Integer id, String nome) {
+    public Produto(Integer id, String nome, Double preco) {
         super();
-        this.id = id;
         this.nome = nome;
+        this.preco = preco;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Categoria categoria = (Categoria) o;
-        return Objects.equals(id, categoria.id);
+        Produto produto = (Produto) o;
+        return Objects.equals(id, produto.id);
     }
 
     @Override
