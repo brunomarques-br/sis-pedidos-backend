@@ -1,5 +1,6 @@
 package br.com.sis.pedidos.sistemapedidos.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
@@ -40,6 +41,7 @@ public class Cliente implements Serializable {
     private Set<String> telefones = new HashSet<>();
     @Getter
     @Setter
+    @JsonBackReference
     @OneToMany(mappedBy = "cliente")
     private List<Pedido> pedidos = new ArrayList<>();
 

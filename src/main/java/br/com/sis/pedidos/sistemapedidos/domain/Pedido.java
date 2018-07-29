@@ -1,5 +1,6 @@
 package br.com.sis.pedidos.sistemapedidos.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,13 +21,16 @@ public class Pedido implements Serializable {
     private Integer id;
     @Getter
     @Setter
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private Date instante;
     @Getter
     @Setter
+    @JsonManagedReference
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido")
     private Pagamento pagamento;
     @Getter
     @Setter
+    @JsonManagedReference
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;

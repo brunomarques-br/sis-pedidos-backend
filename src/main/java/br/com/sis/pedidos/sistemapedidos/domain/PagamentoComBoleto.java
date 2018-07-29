@@ -1,5 +1,6 @@
 package br.com.sis.pedidos.sistemapedidos.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,9 +12,11 @@ public class PagamentoComBoleto extends Pagamento {
 
     @Getter
     @Setter
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private Date dataVencimento;
     @Getter
     @Setter
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private Date dataPagamento;
 
     public PagamentoComBoleto() {

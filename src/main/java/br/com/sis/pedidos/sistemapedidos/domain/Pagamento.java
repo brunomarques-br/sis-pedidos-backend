@@ -1,5 +1,6 @@
 package br.com.sis.pedidos.sistemapedidos.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,6 +23,7 @@ public abstract class Pagamento implements Serializable {
     private Integer estadoPagamento;
     @Getter
     @Setter
+    @JsonBackReference
     @OneToOne
     @JoinColumn(name = "pedido_id")
     @MapsId
