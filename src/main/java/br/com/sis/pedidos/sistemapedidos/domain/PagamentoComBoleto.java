@@ -16,7 +16,7 @@ public class PagamentoComBoleto extends Pagamento {
     @Setter
     private Date dataPagamento;
 
-    public PagamentoComBoleto(){
+    public PagamentoComBoleto() {
         super();
     }
 
