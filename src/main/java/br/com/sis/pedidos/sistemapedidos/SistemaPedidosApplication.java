@@ -111,5 +111,7 @@ public class SistemaPedidosApplication implements CommandLineRunner {
 
         itemPedidoRepository.saveAll(Arrays.asList(item_pedido_1, item_pedido_2, item_pedido_3));
 
+
+
     }
 }
