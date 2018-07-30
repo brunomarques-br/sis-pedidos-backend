@@ -21,6 +21,14 @@ public class CategoriaResource {
     @Autowired
     private CategoriaService service;
 
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO obj) {
+        Categoria categoria = service.fromDTO(obj);
+        categoria = service.insert(categoria);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(categoria.getId()).toUri();
+        return ResponseEntity.created(uri).build();
+    }
+
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<Categoria> find(@PathVariable Integer id) {
         Categoria obj = service.find(id);
@@ -45,14 +53,6 @@ public class CategoriaResource {
         return ResponseEntity.ok().body(categoriasDTO);
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO obj) {
-        Categoria categoria = service.fromDTO(obj);
-        categoria = service.insert(categoria);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(categoria.getId()).toUri();
-        return ResponseEntity.created(uri).build();
-    }
-
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Void> update(@Valid @RequestBody CategoriaDTO obj, @PathVariable Integer id) {
         obj.setId(id);
@@ -66,6 +66,5 @@ public class CategoriaResource {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
-
 
 }
