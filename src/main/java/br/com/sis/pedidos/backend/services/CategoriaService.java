@@ -1,6 +1,7 @@
 package br.com.sis.pedidos.backend.services;
 
 import br.com.sis.pedidos.backend.domain.Categoria;
+import br.com.sis.pedidos.backend.dto.CategoriaDTO;
 import br.com.sis.pedidos.backend.exceptions.DataIntegrityException;
 import br.com.sis.pedidos.backend.exceptions.ObjectNotFoundException;
 import br.com.sis.pedidos.backend.repositories.CategoriaRepository;
@@ -52,6 +53,10 @@ public class CategoriaService {
         } catch (DataIntegrityViolationException err) {
             throw new DataIntegrityException("Não é possível excluir uma categoria que possua produtos vinculados.");
         }
+    }
+
+    public Categoria fromDTO(CategoriaDTO categoriaDTO) {
+        return new Categoria(categoriaDTO.getId(), categoriaDTO.getNome());
     }
 
 }
