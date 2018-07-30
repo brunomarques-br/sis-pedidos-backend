@@ -4,6 +4,7 @@ import br.com.sis.pedidos.backend.domain.Categoria;
 import br.com.sis.pedidos.backend.dto.CategoriaDTO;
 import br.com.sis.pedidos.backend.services.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -25,6 +26,24 @@ public class CategoriaResource {
         return ResponseEntity.ok().body(obj);
     }
 
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public ResponseEntity<List<CategoriaDTO>> findAll() {
+        List<Categoria> categorias = service.findAll();
+        List<CategoriaDTO> categoriasDTO = categorias.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());
+        return ResponseEntity.ok().body(categoriasDTO);
+    }
+
+    @RequestMapping(value = "/page", method = RequestMethod.GET)
+    public ResponseEntity<Page<CategoriaDTO>> findPage(
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
+            @RequestParam(value = "orderBy", defaultValue = "nome") String orderBy,
+            @RequestParam(value = "direction", defaultValue = "ASC") String direction) {
+        Page<Categoria> categorias = service.findPage(page, linesPerPage, orderBy, direction);
+        Page<CategoriaDTO> categoriasDTO = categorias.map(obj -> new CategoriaDTO(obj));
+        return ResponseEntity.ok().body(categoriasDTO);
+    }
+
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Void> insert(@RequestBody Categoria obj) {
         obj = service.insert(obj);
@@ -33,7 +52,7 @@ public class CategoriaResource {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Void> update(@RequestBody Categoria obj, @PathVariable Integer id){
+    public ResponseEntity<Void> update(@RequestBody Categoria obj, @PathVariable Integer id) {
         obj.setId(id);
         service.update(obj);
         return ResponseEntity.noContent().build();
@@ -45,11 +64,5 @@ public class CategoriaResource {
         return ResponseEntity.noContent().build();
     }
 
-    @RequestMapping(value = "/",method = RequestMethod.GET)
-    public ResponseEntity<List<CategoriaDTO>> findAll() {
-        List<Categoria> categorias = service.findAll();
-        List<CategoriaDTO> categoriasDTO = categorias.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());
-        return ResponseEntity.ok().body(categoriasDTO);
-    }
 
 }
