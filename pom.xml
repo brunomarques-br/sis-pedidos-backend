@@ -4,11 +4,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>br.com.sis.pedidos</groupId>
-    <artifactId>sistema-pedidos</artifactId>
+    <artifactId>spring-boot-ionic-backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
-    <name>sistema-pedidos</name>
-    <description>Sistema de pedidos</description>
+    <name>spring-boot-ionic-backend</name>
+    <description>Spring boot ionic - BackEnd</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
