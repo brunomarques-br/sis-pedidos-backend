@@ -5,9 +5,9 @@ import lombok.Setter;
 
 public enum EstadoPagamento {
 
-    PENDENTE(1, "Pessoa Física"),
-    QUITADO(2, "Pessoa Jurídica"),
-    CANCELADO(3, "Cancelado");
+    PENDENTE(1, "PENDENTE"),
+    QUITADO(2, "QUITADO"),
+    CANCELADO(3, "CANCELADO");
 
     @Getter
     @Setter
