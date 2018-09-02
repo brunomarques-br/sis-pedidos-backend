@@ -4,7 +4,7 @@
 * Um sistema de pedidos que gerencia clientes, produtos, pedidos e pagamentos.
 
 # Objetivo Técnico
-* Todo o backend do projeto foi desenvolvido em SpringBoot entregando um serviço REST.
+* Todo o backend do projeto foi desenvolvido em SpringBoot REST.
 
 # Arquitetura
 * Controladores REST (resources), responsáveis por receber requisições e entregar dados JSON para a aplicação do cliente.
@@ -15,6 +15,6 @@
 # Tecnologias
 * JavaEE: 8
 * Spring Boot: 2.0.3.RELEASE
-* Base de dados: H2
+* Base de dados: Mysql
 * Encapsulamento dos modelos de dados utilizando Lombok.
 * Maven: 3.5
