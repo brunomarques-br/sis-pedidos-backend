@@ -18,50 +18,51 @@ import java.util.Optional;
 @Service
 public class CategoriaService {
 
-    @Autowired
-    private CategoriaRepository repo;
+	@Autowired
+	private CategoriaRepository repo;
 
-    public Categoria find(Integer id) {
-        Optional<Categoria> obj = repo.findById(id);
-        return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! Id: " + id + ", Tipo: " + Categoria.class.getName()));
-    }
+	public Categoria find(Integer id) {
+		Optional<Categoria> obj = repo.findById(id);
+		return obj.orElseThrow(() -> new ObjectNotFoundException(
+				"Objeto não encontrado! Id: " + id + ", Tipo: " + Categoria.class.getName()));
+	}
 
-    public List<Categoria> findAll() {
-        List<Categoria> obj = repo.findAll();
-        return obj;
-    }
+	public List<Categoria> findAll() {
+		List<Categoria> obj = repo.findAll();
+		return obj;
+	}
 
-    public Page<Categoria> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
-        PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
-        return repo.findAll(pageRequest);
-    }
+	public Page<Categoria> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
+		return repo.findAll(pageRequest);
+	}
 
-    public Categoria insert(Categoria obj) {
-        obj.setId(null);
-        return repo.save(obj);
-    }
+	public Categoria insert(Categoria obj) {
+		obj.setId(null);
+		return repo.save(obj);
+	}
 
-    public Categoria update(Categoria obj) {
-        Categoria newCategoria = find(obj.getId());
-        updateData(newCategoria, obj);
-        return repo.save(newCategoria);
-    }
+	public Categoria update(Categoria obj) {
+		Categoria newCategoria = find(obj.getId());
+		updateData(newCategoria, obj);
+		return repo.save(newCategoria);
+	}
 
-    public void delete(Integer id) {
-        find(id);
-        try {
-            repo.deleteById(id);
-        } catch (DataIntegrityViolationException err) {
-            throw new DataIntegrityException("Não é possível excluir uma categoria que possua produtos vinculados.");
-        }
-    }
+	public void delete(Integer id) {
+		find(id);
+		try {
+			repo.deleteById(id);
+		} catch (DataIntegrityViolationException err) {
+			throw new DataIntegrityException("Não é possível excluir uma categoria que possua produtos vinculados.");
+		}
+	}
 
-    public Categoria fromDTO(CategoriaDTO categoriaDTO) {
-        return new Categoria(categoriaDTO.getId(), categoriaDTO.getNome());
-    }
+	public Categoria fromDTO(CategoriaDTO categoriaDTO) {
+		return new Categoria(categoriaDTO.getId(), categoriaDTO.getNome());
+	}
 
-    private void updateData(Categoria newCategoria, Categoria obj) {
-        newCategoria.setNome(obj.getNome());
-    }
+	private void updateData(Categoria newCategoria, Categoria obj) {
+		newCategoria.setNome(obj.getNome());
+	}
 
 }
