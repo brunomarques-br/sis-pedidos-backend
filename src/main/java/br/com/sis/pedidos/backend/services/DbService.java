@@ -3,6 +3,7 @@ package br.com.sis.pedidos.backend.services;
 import br.com.sis.pedidos.backend.domain.*;
 import br.com.sis.pedidos.backend.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -30,6 +31,8 @@ public class DbService {
 	private PagamentoRepository pagamentoRepository;
 	@Autowired
 	private ItemPedidoRepository itemPedidoRepository;
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	public void instantiateTestDatabase() throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
@@ -85,7 +88,7 @@ public class DbService {
 		Cidade c3 = new Cidade(null, "Campinas", est2);
 
 		Cliente cli1 = new Cliente(null, "Bruno Marques", "brunomarques.web@gmail.com", "02249319111",
-				TipoCliente.PESSOA_FISICA);
+				TipoCliente.PESSOA_FISICA, bCryptPasswordEncoder.encode("123"));
 
 		Endereco e1 = new Endereco(null, "Rua Flores", "300", "Apto 203", "Jardim", "75221468", cli1, c1);
 		Endereco e2 = new Endereco(null, "Avenida Matos", "105", "Apto 808", "Centro", "38777012", cli1, c2);
