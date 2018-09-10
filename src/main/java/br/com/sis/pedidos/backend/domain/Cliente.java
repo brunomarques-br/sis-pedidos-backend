@@ -7,6 +7,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 public class Cliente implements Serializable {
@@ -40,8 +41,11 @@ public class Cliente implements Serializable {
     @Getter
     @Setter
     @ElementCollection
-    @CollectionTable(name = "tabela_telefone")
+    @CollectionTable(name = "telefones")
     private Set<String> telefones = new HashSet<>();
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "perfis")
+    private Set<Integer> perfis = new HashSet<>();
     @Getter
     @Setter
     @JsonIgnore
@@ -49,7 +53,7 @@ public class Cliente implements Serializable {
     private List<Pedido> pedidos = new ArrayList<>();
 
     public Cliente() {
-        super();
+        addPerfil(Perfil.CLIENTE);
     }
 
     public Cliente(Integer id, String nome, String email, String cpf_cnpj, TipoCliente tipo, String senha) {
@@ -60,6 +64,7 @@ public class Cliente implements Serializable {
         this.cpf_cnpj = cpf_cnpj;
         this.tipo = (tipo == null) ? null : tipo.getCod();
         this.senha = senha;
+        addPerfil(Perfil.CLIENTE);
     }
 
     public Cliente(Integer id, String nome, String email) {
@@ -75,6 +80,14 @@ public class Cliente implements Serializable {
 
     public void setTipo(TipoCliente tipo) {
         this.tipo = tipo.getCod();
+    }
+
+    public Set<Perfil> getPerfis() {
+        return perfis.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet());
+    }
+
+    public void addPerfil(Perfil perfil) {
+        perfis.add(perfil.getCod());
     }
 
     @Override
