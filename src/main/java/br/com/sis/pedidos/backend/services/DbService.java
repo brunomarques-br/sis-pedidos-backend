@@ -90,7 +90,7 @@ public class DbService {
 		Cliente cli1 = new Cliente(null, "Bruno Marques", "brunomarques.web@gmail.com", "02249319111",
 				TipoCliente.PESSOA_FISICA, bCryptPasswordEncoder.encode("123"));
 
-		Cliente cli2 = new Cliente(null, "Ana Maria", "brunomarques.java@gmail.com", "02249319111",
+		Cliente cli2 = new Cliente(null, "Ana Maria", "brunomarques.java@gmail.com", "37107028014",
 				TipoCliente.PESSOA_FISICA, bCryptPasswordEncoder.encode("123"));
 		cli2.addPerfil(Perfil.ADMIN);
 
