@@ -1,6 +1,7 @@
 package br.com.sis.pedidos.backend.config;
 
 import br.com.sis.pedidos.backend.security.JWTAuthenticationFilter;
+import br.com.sis.pedidos.backend.security.JWTAuthorizationFilter;
 import br.com.sis.pedidos.backend.security.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -30,6 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private Environment environment;
 
+    @Qualifier("userDetailsServiceImpl")
     @Autowired
     private UserDetailsService userDetailsService;
 
@@ -62,8 +64,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll() //libera somente requisições GET
                 .antMatchers(PUBLIC_MATCHERS).permitAll() // libera qualquer requisição
                 .anyRequest().authenticated();
-        /*registrando o filtro de autenticação do spring security*/
-        http.addFilter(new JWTAuthenticationFilter(authenticationManager(),jwtUtil));
+        //registrando o filtro de AUTENTICAÇÃO do spring security
+        http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil));
+        //registrando o filtro de AUTORIZAÇÃO do spring security
+        http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, userDetailsService));
         //estamos definindo que neste projeto não será necessário o armazenamento de sessão durante as requisições (stateless)
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
