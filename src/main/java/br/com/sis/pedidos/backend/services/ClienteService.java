@@ -1,15 +1,14 @@
 package br.com.sis.pedidos.backend.services;
 
-import br.com.sis.pedidos.backend.domain.Cidade;
-import br.com.sis.pedidos.backend.domain.Cliente;
-import br.com.sis.pedidos.backend.domain.Endereco;
-import br.com.sis.pedidos.backend.domain.TipoCliente;
+import br.com.sis.pedidos.backend.domain.*;
 import br.com.sis.pedidos.backend.dto.ClienteDTO;
 import br.com.sis.pedidos.backend.dto.ClienteNewDTO;
+import br.com.sis.pedidos.backend.exceptions.AuthorizationException;
 import br.com.sis.pedidos.backend.exceptions.DataIntegrityException;
 import br.com.sis.pedidos.backend.exceptions.ObjectNotFoundException;
 import br.com.sis.pedidos.backend.repositories.ClienteRepository;
 import br.com.sis.pedidos.backend.repositories.EnderecoRepository;
+import br.com.sis.pedidos.backend.security.UserSS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -35,6 +34,15 @@ public class ClienteService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public Cliente find(Integer id) {
+
+        /*
+        * bloco para validação do usuário durante busca validando se ele está buscando a si mesmo ou se é um ADMIN.
+        * */
+        UserSS user = UserService.authenticated();
+        if(user != null && !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())){
+            throw new AuthorizationException("Acesso Negado!");
+        }
+
         Optional<Cliente> obj = repo.findById(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName()));
     }

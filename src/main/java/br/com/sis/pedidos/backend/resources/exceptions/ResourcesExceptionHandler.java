@@ -1,5 +1,6 @@
 package br.com.sis.pedidos.backend.resources.exceptions;
 
+import br.com.sis.pedidos.backend.exceptions.AuthorizationException;
 import br.com.sis.pedidos.backend.exceptions.DataIntegrityException;
 import br.com.sis.pedidos.backend.exceptions.ObjectNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -32,5 +33,11 @@ public class ResourcesExceptionHandler {
         for (FieldError x : e.getBindingResult().getFieldErrors())
             err.addError(x.getField(), x.getDefaultMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+    }
+
+    @ExceptionHandler(AuthorizationException.class)
+    public ResponseEntity<StandardError> authorization(AuthorizationException e, HttpServletRequest request) {
+        StandardError err = new StandardError(HttpStatus.FORBIDDEN.value(), e.getMessage(), System.currentTimeMillis());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(err);
     }
 }

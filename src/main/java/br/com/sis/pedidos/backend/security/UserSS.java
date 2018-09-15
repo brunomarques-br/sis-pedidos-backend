@@ -18,7 +18,7 @@ public class UserSS implements UserDetails {
     private Integer id;
     private String email;
     private String senha;
-    private Collection<? extends GrantedAuthority> authorities;
+    private Collection<? extends GrantedAuthority> authorities; //perfis
 
     public UserSS() {}
 
@@ -61,5 +61,11 @@ public class UserSS implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    // retorna um booleano se o usuário tem o perfil informado no parâmetro enviado
+    public boolean hasRole(Perfil perfil){
+        //convertendo o perfil para o granted authority do spring security
+        return getAuthorities().contains(new SimpleGrantedAuthority(perfil.getDescricao()));
     }
 }
