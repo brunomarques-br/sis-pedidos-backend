@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -26,6 +27,7 @@ import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true) //anotação para determinar acessos a endPoints específicos para perfil informado.
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -45,7 +47,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     // somente leitura
     private static final String[] PUBLIC_MATCHERS_GET = {
             "/produtos/**",
-            "/categorias/**",
+            "/categorias/**"
+    };
+
+    private static final String[] PUBLIC_MATCHERS_POST = {
             "/clientes/**"
     };
 
@@ -61,8 +66,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable();
         //chamada do cors para liberação de requisições básicas através de multiplas fontes.
         http.authorizeRequests()
-                .antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll() //libera somente requisições GET
-                .antMatchers(PUBLIC_MATCHERS).permitAll() // libera qualquer requisição
+                .antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_POST).permitAll() //libera requisições POST informadas sem autenticação
+                .antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll() //libera requisições GET informadas sem autenticação
+                .antMatchers(PUBLIC_MATCHERS).permitAll() // liberar todas as requisições públicas informadas sem autenticação
                 .anyRequest().authenticated();
         //registrando o filtro de AUTENTICAÇÃO do spring security
         http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil));

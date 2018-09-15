@@ -6,6 +6,7 @@ import br.com.sis.pedidos.backend.services.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -20,14 +21,6 @@ public class CategoriaResource {
 
     @Autowired
     private CategoriaService service;
-
-    @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO obj) {
-        Categoria categoria = service.fromDTO(obj);
-        categoria = service.insert(categoria);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(categoria.getId()).toUri();
-        return ResponseEntity.created(uri).build();
-    }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<Categoria> find(@PathVariable Integer id) {
@@ -53,6 +46,16 @@ public class CategoriaResource {
         return ResponseEntity.ok().body(categoriasDTO);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO obj) {
+        Categoria categoria = service.fromDTO(obj);
+        categoria = service.insert(categoria);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(categoria.getId()).toUri();
+        return ResponseEntity.created(uri).build();
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Void> update(@Valid @RequestBody CategoriaDTO obj, @PathVariable Integer id) {
         obj.setId(id);
@@ -61,6 +64,7 @@ public class CategoriaResource {
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Categoria> delete(@PathVariable Integer id) {
         service.delete(id);
