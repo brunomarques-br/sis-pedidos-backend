@@ -1,14 +1,16 @@
 package br.com.sis.pedidos.backend.services;
 
-import br.com.sis.pedidos.backend.domain.EstadoPagamento;
-import br.com.sis.pedidos.backend.domain.ItemPedido;
-import br.com.sis.pedidos.backend.domain.PagamentoComBoleto;
-import br.com.sis.pedidos.backend.domain.Pedido;
+import br.com.sis.pedidos.backend.domain.*;
+import br.com.sis.pedidos.backend.exceptions.AuthorizationException;
 import br.com.sis.pedidos.backend.exceptions.ObjectNotFoundException;
 import br.com.sis.pedidos.backend.repositories.ItemPedidoRepository;
 import br.com.sis.pedidos.backend.repositories.PagamentoRepository;
 import br.com.sis.pedidos.backend.repositories.PedidoRepository;
+import br.com.sis.pedidos.backend.security.UserSS;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -66,5 +68,16 @@ public class PedidoService {
         itemPedidoRepository.saveAll(obj.getItens());
         emailService.sendOrderConfirmationHtmlEmail(obj);
         return obj;
+    }
+
+
+    public Page<Pedido> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+        UserSS user = UserService.authenticated();
+        if (user == null) {
+            throw new AuthorizationException("Acesso Negado!");
+        }
+        PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
+        Cliente cliente = clienteService.find(user.getId());
+        return repo.findByCliente(cliente, pageRequest);
     }
 }
