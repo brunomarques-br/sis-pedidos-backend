@@ -52,7 +52,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String[] PUBLIC_MATCHERS_POST = {
             "/clientes/**",
-            "/auth/refresh_token/"
+            "/auth/refresh_token/",
+            "/auth/forgot/**"
     };
 
     @Override
@@ -67,7 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable();
         //chamada do cors para liberação de requisições básicas através de multiplas fontes.
         http.authorizeRequests()
-                .antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_POST).permitAll() //libera requisições POST informadas sem autenticação
+                .antMatchers(HttpMethod.POST, PUBLIC_MATCHERS_POST).permitAll() //libera requisições POST informadas sem autenticação
                 .antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll() //libera requisições GET informadas sem autenticação
                 .antMatchers(PUBLIC_MATCHERS).permitAll() // liberar todas as requisições públicas informadas sem autenticação
                 .anyRequest().authenticated();
