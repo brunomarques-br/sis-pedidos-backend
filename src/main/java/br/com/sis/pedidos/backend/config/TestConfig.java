@@ -14,8 +14,12 @@ import java.text.ParseException;
 @Profile("test")
 public class TestConfig {
 
+    private final DbService dbService;
+
     @Autowired
-    private DbService dbService;
+    public TestConfig(DbService dbService) {
+        this.dbService = dbService;
+    }
 
     @Bean
     public boolean instantiateDatabase() throws ParseException {

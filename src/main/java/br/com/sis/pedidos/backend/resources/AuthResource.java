@@ -4,13 +4,12 @@ import br.com.sis.pedidos.backend.dto.EmailDTO;
 import br.com.sis.pedidos.backend.security.JWTUtil;
 import br.com.sis.pedidos.backend.security.UserSS;
 import br.com.sis.pedidos.backend.services.AuthService;
-import br.com.sis.pedidos.backend.services.EmailService;
 import br.com.sis.pedidos.backend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
@@ -25,7 +24,7 @@ public class AuthResource {
     @Autowired
     private AuthService authService;
 
-    @RequestMapping(value="/refresh_token", method= RequestMethod.POST)
+    @PostMapping("/refresh_token")
     public ResponseEntity<Void> refreshToken(HttpServletResponse response) {
         UserSS user = UserService.authenticated();
         String token = jwtUtil.generateToken(user.getUsername());
@@ -33,7 +32,7 @@ public class AuthResource {
         return ResponseEntity.noContent().build();
     }
 
-    @RequestMapping(value="/forgot", method= RequestMethod.POST)
+    @PostMapping("/forgot")
     public ResponseEntity<Void> forgot(@RequestBody @Valid EmailDTO objDTO) {
         authService.sendNewPassword(objDTO.getEmail());
         return ResponseEntity.noContent().build();

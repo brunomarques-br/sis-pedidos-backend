@@ -12,13 +12,13 @@ public class JacksonConfig {
     // https://stackoverflow.com/questions/41452598/overcome-can-not-construct-instance-ofinterfaceclass-without-hinting-the-pare
     @Bean
     public Jackson2ObjectMapperBuilder objectMapperBuilder() {
-        Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder() {
+        return new Jackson2ObjectMapperBuilder() {
+            @Override
             public void configure(ObjectMapper objectMapper) {
                 objectMapper.registerSubtypes(PagamentoComCartao.class);
                 objectMapper.registerSubtypes(PagamentoComBoleto.class);
                 super.configure(objectMapper);
             }
         };
-        return builder;
     }
 }

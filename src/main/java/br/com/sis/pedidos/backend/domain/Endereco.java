@@ -49,6 +49,7 @@ public class Endereco implements Serializable {
         super();
     }
 
+    @SuppressWarnings("squid:S00107")
     public Endereco(Integer id, String logradouro, String numero, String complemento, String bairro, String cep, Cliente cliente, Cidade cidade) {
         super();
         this.id = id;

@@ -1,6 +1,9 @@
 package br.com.sis.pedidos.backend.services.validation.utils;
 
 public class BR {
+
+    private BR(){}
+
     // CPF
     private static final int[] weightSsn = {11, 10, 9, 8, 7, 6, 5, 4, 3, 2};
 

@@ -15,8 +15,12 @@ import java.text.ParseException;
 @Profile("dev")
 public class DevConfig {
 
+    private final DbService dbService;
+
     @Autowired
-    private DbService dbService;
+    public DevConfig(DbService dbService) {
+        this.dbService = dbService;
+    }
 
     /*criando um pattern strategy para controle na criação da base de dados.*/
     @Value("${spring.jpa.hibernate.ddl-auto}")
