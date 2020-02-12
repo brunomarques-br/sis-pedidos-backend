@@ -1,4 +1,5 @@
-# Spring Boot Backend
+# SisPedidos
+## Springboot Backend, Mysql, Java 8, Maven 3.5
 
 # Objetivo
 * Um sistema de pedidos que gerencia clientes, produtos, pedidos e pagamentos.
